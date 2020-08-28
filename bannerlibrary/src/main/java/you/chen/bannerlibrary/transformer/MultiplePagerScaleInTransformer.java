@@ -9,6 +9,9 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+/**
+ * create by you 2019-02
+ */
 public class MultiplePagerScaleInTransformer implements ViewPager2.PageTransformer {
     private int marginPx;
     private float scale;

@@ -5,6 +5,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/**
+ * create by you 2019-02
+ */
 public abstract class BannerAdapter<VH extends BannerViewHolder> extends RecyclerView.Adapter<VH> {
 
     public static final int DEF_MIN_AUTO_RUNNING_COUNT = 2;

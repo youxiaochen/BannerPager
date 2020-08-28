@@ -14,6 +14,9 @@ import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/**
+ * create by you 2019-02
+ */
 public class BannerIndicator extends View {
 
     @IntDef({ORIENTATION_HORIZONTAL, ORIENTATION_VERTICAL})

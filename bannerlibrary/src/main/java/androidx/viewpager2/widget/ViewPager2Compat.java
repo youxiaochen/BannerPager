@@ -3,6 +3,9 @@ package androidx.viewpager2.widget;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * create by you 2019-02
+ */
 public final class ViewPager2Compat {
 
     private ViewPager2Compat() {}

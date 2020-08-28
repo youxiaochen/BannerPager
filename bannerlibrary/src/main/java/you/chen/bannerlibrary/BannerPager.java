@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.widget.ViewPager2Compat;
 
+/**
+ * create by you 2019-02
+ */
 public class BannerPager extends FrameLayout {
     /**
      * 无限循环时附加的数量
@@ -243,6 +246,20 @@ public class BannerPager extends FrameLayout {
         void onPageSelected(int position);
 
         void onPageScrollStateChanged(int state);
+    }
+
+    //Simple
+    public abstract static class SimpleBannerChangeListener implements OnBannerChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
     }
 
     /**
