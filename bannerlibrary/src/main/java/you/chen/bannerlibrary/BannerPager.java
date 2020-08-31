@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.widget.ViewPager2Compat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * create by you 2019-02
  */
@@ -91,8 +94,12 @@ public class BannerPager extends FrameLayout {
         //Log.i("BannerPager", "update");
         pageChangeCallback.mLastSelectPosition = -1;
         checkCurrentItem();
-        if (listener != null) {
-            listener.onChanged(mAdapter.getBannerItemCount());
+        if (this.listeners != null) {
+            for (OnBannerChangeListener listener : this.listeners) {
+                if (listener != null) {
+                    listener.onChanged(mAdapter.getBannerItemCount());
+                }
+            }
         }
     }
 
@@ -225,12 +232,21 @@ public class BannerPager extends FrameLayout {
         mViewPager2.setPageTransformer(transformer);
     }
 
-    private OnBannerChangeListener listener;
+    private List<OnBannerChangeListener> listeners;
 
-    public void setOnBannerChangeListener(OnBannerChangeListener listener) {
-        this.listener = listener;
+    public void addOnBannerChangeListener(OnBannerChangeListener listener) {
+        if (this.listeners == null) {
+            this.listeners = new ArrayList<>();
+        }
+        this.listeners.add(listener);
         if (listener != null && mAdapter != null) {
             listener.onChanged(mAdapter.getBannerItemCount());
+        }
+    }
+
+    public void removeOnBannerChangeListener(OnBannerChangeListener listener) {
+        if (this.listeners != null) {
+            this.listeners.remove(listener);
         }
     }
 
@@ -299,8 +315,12 @@ public class BannerPager extends FrameLayout {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             //Log.i("BannerPager", "onPageScrolled " + position +" offset " + positionOffset + " offsetPixels " + positionOffsetPixels);
-            if (listener != null) {
-                listener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            if (listeners != null) {
+                for (OnBannerChangeListener listener : listeners) {
+                    if (listener != null) {
+                        listener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                    }
+                }
             }
         }
 
@@ -310,8 +330,12 @@ public class BannerPager extends FrameLayout {
                 int bannerPosition = mAdapter.getBannerPosition(position);
                 if (bannerPosition != mLastSelectPosition) {
                     mLastSelectPosition = bannerPosition;
-                    if (listener != null) {
-                        listener.onPageSelected(bannerPosition);
+                    if (listeners != null) {
+                        for (OnBannerChangeListener listener : listeners) {
+                            if (listener != null) {
+                                listener.onPageSelected(bannerPosition);
+                            }
+                        }
                     }
                 }
             } else {
@@ -329,8 +353,12 @@ public class BannerPager extends FrameLayout {
                 isPageTurning = true;
                 removeCallbacks(autoRunnable);
             }
-            if (listener != null) {
-                listener.onPageScrollStateChanged(state);
+            if (listeners != null) {
+                for (OnBannerChangeListener listener : listeners) {
+                    if (listener != null) {
+                        listener.onPageScrollStateChanged(state);
+                    }
+                }
             }
         }
     }

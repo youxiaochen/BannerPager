@@ -205,4 +205,38 @@ public class BannerIndicator extends View {
         setImageDrawable(getContext().getResources().getDrawable(resId));
     }
 
+    private BannerPager bannerPager;
+    private BannerPager.OnBannerChangeListener onBannerChangeListener;
+
+    /**
+     * 关联BannerPager, 界面销毁的时候适当的设置null
+     * @param bannerPager
+     */
+    public void setupWithBannerPager(@Nullable BannerPager bannerPager) {
+        if (this.bannerPager != null) {
+            if (this.onBannerChangeListener != null) {
+                this.bannerPager.removeOnBannerChangeListener(this.onBannerChangeListener);
+            }
+        }
+        if (bannerPager != null) {
+            this.bannerPager = bannerPager;
+            if (this.onBannerChangeListener == null) {
+                this.onBannerChangeListener = new BannerPager.SimpleBannerChangeListener() {
+                    @Override
+                    public void onChanged(int itemCount) {
+                        setCount(itemCount);
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        setSelectPosition(position);
+                    }
+                };
+            }
+            this.bannerPager.addOnBannerChangeListener(this.onBannerChangeListener);
+        } else {
+            this.bannerPager = null;
+        }
+    }
+
 }

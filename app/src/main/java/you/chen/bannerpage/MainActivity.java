@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     BannerIndicator bi;
     TestAdapter adapter;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,63 +31,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter_s.setNewDatas(BannerBean.test2());
         bp_s.setAdapter(adapter_s);
         bp_s.setPageTransformer(new DepthPageTransformer());
-        bp_s.setOnBannerChangeListener(new BannerPager.OnBannerChangeListener() {
-            @Override
-            public void onChanged(int itemCount) {
-                bi_s.setCount(itemCount);
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                bi_s.setSelectPosition(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        bi_s.setupWithBannerPager(bp_s);
 
         bp = findViewById(R.id.bp);
         bi = findViewById(R.id.bi);
         adapter = new TestAdapter(this);
         bp.setAdapter(adapter);
         bp.setPageTransformer(new ZoomOutPageTransformer());
-        bp.setOnBannerChangeListener(new BannerPager.OnBannerChangeListener() {
-            @Override
-            public void onChanged(int itemCount) {
-                bi.setCount(itemCount);
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                bi.setSelectPosition(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        bi.setupWithBannerPager(bp);
 
         findViewById(R.id.bt1).setOnClickListener(this);
         findViewById(R.id.bt2).setOnClickListener(this);
         findViewById(R.id.bt3).setOnClickListener(this);
         findViewById(R.id.bt4).setOnClickListener(this);
-
-
-
-
     }
 
     @Override
@@ -104,6 +58,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         bp_s.stopAutoRunning();
         bp.stopAutoRunning();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bi_s.setupWithBannerPager(null);
+        bi.setupWithBannerPager(null);
     }
 
     @Override

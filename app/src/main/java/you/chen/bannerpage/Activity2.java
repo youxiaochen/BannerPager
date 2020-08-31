@@ -13,7 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
+import you.chen.bannerlibrary.BannerIndicator;
 import you.chen.bannerlibrary.BannerPager;
 import you.chen.bannerpage.adapter.TestAdapter;
 
@@ -95,6 +97,24 @@ public class Activity2 extends AppCompatActivity {
         }
 
         @Override
+        public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
+            super.onViewAttachedToWindow(holder);
+            if (holder.getItemViewType() == 1) {
+                BannerTestViewHolder vh = (BannerTestViewHolder) holder;
+                vh.bi.setupWithBannerPager(vh.bp);
+            }
+        }
+
+        @Override
+        public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
+            super.onViewDetachedFromWindow(holder);
+            if (holder.getItemViewType() == 1) {
+                BannerTestViewHolder vh = (BannerTestViewHolder) holder;
+                vh.bi.setupWithBannerPager(null);
+            }
+        }
+
+        @Override
         public int getItemCount() {
             return 50;
         }
@@ -119,10 +139,14 @@ public class Activity2 extends AppCompatActivity {
     private class BannerTestViewHolder extends RecyclerView.ViewHolder {
 
         BannerPager bp;
+        BannerIndicator bi;
 
         public BannerTestViewHolder(@NonNull View itemView) {
             super(itemView);
             bp = itemView.findViewById(R.id.bp);
+            bi = itemView.findViewById(R.id.bi);
+            bp.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+            bi.setOrientation(BannerIndicator.ORIENTATION_HORIZONTAL);
         }
 
     }
